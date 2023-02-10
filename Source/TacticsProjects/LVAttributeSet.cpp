@@ -19,6 +19,16 @@ void ULVAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
         SetOxygen(FMath::Clamp(GetOxygen(), 0.f, GetMaxOxygen()));
     }
 
+    if (Data.EvaluatedData.Attribute == GetCapcityAttribute())
+    {
+        SetCapcity(FMath::Clamp(GetCapcity(), 0.f, GetMaxCapacity()));
+    }
+
+    if (Data.EvaluatedData.Attribute == GetNourishmentAttribute())
+    {
+        SetNourishment(FMath::Clamp(GetNourishment(), 0.f, GetMaxNourishment()));
+    }
+
 
     if (Data.EvaluatedData.Attribute == GetLevelAttribute())
     {

@@ -43,6 +43,22 @@ public:
 	ATTRIBUTE_ACCESSORS(ULVAttributeSet, MaxOxygen);
 
 	UPROPERTY()
+	FGameplayAttributeData Capcity;
+	ATTRIBUTE_ACCESSORS(ULVAttributeSet, Capcity);
+
+	UPROPERTY()
+	FGameplayAttributeData MaxCapacity;
+	ATTRIBUTE_ACCESSORS(ULVAttributeSet, MaxCapacity);
+
+	UPROPERTY()
+	FGameplayAttributeData Nourishment;
+	ATTRIBUTE_ACCESSORS(ULVAttributeSet, Nourishment);
+
+	UPROPERTY()
+	FGameplayAttributeData MaxNourishment;
+	ATTRIBUTE_ACCESSORS(ULVAttributeSet, MaxNourishment);
+
+	UPROPERTY()
 	FGameplayAttributeData Attunement;
 	ATTRIBUTE_ACCESSORS(ULVAttributeSet, Attunement);
 	UPROPERTY()
@@ -56,17 +72,7 @@ public:
 	FGameplayAttributeData Speed;
 	ATTRIBUTE_ACCESSORS(ULVAttributeSet, Speed);
 
-	UPROPERTY()
-	FGameplayAttributeData FireLevel;
-	ATTRIBUTE_ACCESSORS(ULVAttributeSet, FireLevel);
 
-	UPROPERTY()
-	FGameplayAttributeData IceLevel;
-	ATTRIBUTE_ACCESSORS(ULVAttributeSet, IceLevel);
-
-	UPROPERTY()
-	FGameplayAttributeData ThunderLevel;
-	ATTRIBUTE_ACCESSORS(ULVAttributeSet, ThunderLevel);
 
 	UPROPERTY()
 	FGameplayAttributeData FireStones;
@@ -79,6 +85,10 @@ public:
 	UPROPERTY()
 	FGameplayAttributeData ThunderStones;
 	ATTRIBUTE_ACCESSORS(ULVAttributeSet, ThunderStones);
+
+	UPROPERTY()
+	FGameplayAttributeData WindStones;
+	ATTRIBUTE_ACCESSORS(ULVAttributeSet, WindStones);
 
 	UPROPERTY()
 	FGameplayAttributeData Experience;
