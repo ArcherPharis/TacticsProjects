@@ -37,7 +37,7 @@ private:
 	class USpringArmComponent* springArm;
 
 
-
+	//todo, when we change the Fire Ability to a new one, this class needs to change too.
 	UPROPERTY(EditDefaultsOnly, Category = "GameplayAbility")
 	TSubclassOf<class UGameplayAbility> FireAbility;
 
@@ -46,12 +46,19 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")
 	float reservedOxygen = 100.f;
-
+	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")
+	TSubclassOf<class UGameplayEffect> OutOfOxygenHealthDrainEffect;
+	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")
+	FGameplayTagContainer OutOfOxygenTags;
 
 	void MoveForward(float value);
 	void MoveRight(float value);
 	void LookUp(float value);
 	void Turn(float value);
 	void Fire();
+
+	virtual void OxygenUpdated(const FOnAttributeChangeData& AttributeData) override;
+	bool reachedZero = false;
+
 	
 };

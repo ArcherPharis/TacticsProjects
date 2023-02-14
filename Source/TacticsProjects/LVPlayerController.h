@@ -29,6 +29,8 @@ private:
 	class APlayerCharacter* playerCharacter;
 
 	void OxygenUpdated(const FOnAttributeChangeData& AttributeData);
+	void HealthUpdated(const FOnAttributeChangeData& AttributeData);
+
 	UFUNCTION()
 	void OxygenReserveUpdated(float oxy);
 	

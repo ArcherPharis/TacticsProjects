@@ -24,6 +24,7 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	ApplyInitialEffect();
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(GetAttributeSet()->GetOxygenAttribute()).AddUObject(this, &ABaseCharacter::OxygenUpdated);
 	for (auto& abilityKeyValuePair : InitialAbilities)
 	{
 		GiveAbility(abilityKeyValuePair.Value, static_cast<int>(abilityKeyValuePair.Key), true);
@@ -63,6 +64,10 @@ void ABaseCharacter::ApplyEffectToSelf(const TSubclassOf<class UGameplayEffect>&
 {
 	FGameplayEffectSpecHandle Spec = AbilitySystemComp->MakeOutgoingSpec(effectToApply, level, AbilitySystemComp->MakeEffectContext());
 	AbilitySystemComp->ApplyGameplayEffectSpecToSelf(*Spec.Data);
+}
+
+void ABaseCharacter::OxygenUpdated(const FOnAttributeChangeData& AttributeData)
+{
 }
 
 FGameplayAbilitySpec* ABaseCharacter::GiveAbility(const TSubclassOf<class UGameplayAbility>& newAbility, int inputID, bool broadCast, int level)

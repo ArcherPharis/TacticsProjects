@@ -134,3 +134,19 @@ void APlayerCharacter::Fire()
 		GetAbilitySystemComponent()->TryActivateAbilityByClass(FireAbility);
 	}
 }
+
+void APlayerCharacter::OxygenUpdated(const FOnAttributeChangeData& AttributeData)
+{
+	Super::OxygenUpdated(AttributeData);
+	if (AttributeData.NewValue == 0 && !reachedZero)
+	{
+		reachedZero = true;
+		FGameplayEffectContextHandle handle;
+		GetAbilitySystemComponent()->ApplyGameplayEffectToSelf(OutOfOxygenHealthDrainEffect.GetDefaultObject(), -1, handle);
+	}
+	else if(AttributeData.NewValue > 0)
+	{
+		GetAbilitySystemComponent()->RemoveActiveEffectsWithTags(OutOfOxygenTags);
+		reachedZero = false;
+	}
+}

@@ -15,6 +15,7 @@ void ALVPlayerController::OnPossess(APawn* newPawn)
 	if (playerCharacter)
 	{
 		playerCharacter->GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(playerCharacter->GetAttributeSet()->GetOxygenAttribute()).AddUObject(this, &ALVPlayerController::OxygenUpdated);
+		playerCharacter->GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(playerCharacter->GetAttributeSet()->GetHealthAttribute()).AddUObject(this, &ALVPlayerController::HealthUpdated);
 		playerCharacter->onOxygenChange.AddDynamic(this, &ALVPlayerController::OxygenReserveUpdated);
 
 	}
@@ -33,6 +34,11 @@ void ALVPlayerController::BeginPlay()
 void ALVPlayerController::OxygenUpdated(const FOnAttributeChangeData& AttributeData)
 {
 	inGameUI->UpdateOxygenBar(AttributeData.NewValue, playerCharacter->GetAttributeSet()->GetMaxOxygen());
+}
+
+void ALVPlayerController::HealthUpdated(const FOnAttributeChangeData& AttributeData)
+{
+	inGameUI->UpdateHealth(AttributeData.NewValue, playerCharacter->GetAttributeSet()->GetMaxHealth());
 }
 
 void ALVPlayerController::OxygenReserveUpdated(float oxy)
