@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "GameplayEffectTypes.h"
+#include "LVAbilityTypes.h"
+#include "GameplayAbilitySpec.h"
 #include "BaseCharacter.generated.h"
 
 UCLASS()
@@ -29,8 +31,12 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
+	FORCEINLINE class ULVAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 	void ApplyInitialEffect();
+
+	UFUNCTION(BlueprintCallable, Category = "PlayerCharacter")
+	USceneComponent* GetProjectileSpawnLocation() const { return ProjectileSpawnLocation; }
 
 protected:
 
@@ -47,5 +53,13 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameplayAbility")
 	TArray <TSubclassOf<class UGameplayEffect>> InitialEffects;
+
+	UPROPERTY(EditDefaultsOnly, Category = "GameplayAbility")
+	TMap<ELVAbilityInputID, TSubclassOf<class UGameplayAbility>> InitialAbilities;
+
+	FGameplayAbilitySpec* GiveAbility(const TSubclassOf<class UGameplayAbility>& newAbility, int inputID = -1, bool broadCast = true, int level = 0);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Base Character")
+	USceneComponent* ProjectileSpawnLocation;
 
 };

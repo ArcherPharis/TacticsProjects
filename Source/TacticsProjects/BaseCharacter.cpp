@@ -14,7 +14,8 @@ ABaseCharacter::ABaseCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	AbilitySystemComp = CreateDefaultSubobject<ULVAbilitySystemComponent>("AbilitySystemComp");
 	AttributeSet = CreateDefaultSubobject<ULVAttributeSet>("AttributeSet");
-
+	ProjectileSpawnLocation = CreateDefaultSubobject<USceneComponent>(TEXT("SpawnLocation"));
+	ProjectileSpawnLocation->SetupAttachment(RootComponent);
 
 }
 
@@ -23,6 +24,10 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	ApplyInitialEffect();
+	for (auto& abilityKeyValuePair : InitialAbilities)
+	{
+		GiveAbility(abilityKeyValuePair.Value, static_cast<int>(abilityKeyValuePair.Key), true);
+	}
 	
 }
 
@@ -30,6 +35,7 @@ void ABaseCharacter::BeginPlay()
 void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 
 }
 
@@ -57,5 +63,12 @@ void ABaseCharacter::ApplyEffectToSelf(const TSubclassOf<class UGameplayEffect>&
 {
 	FGameplayEffectSpecHandle Spec = AbilitySystemComp->MakeOutgoingSpec(effectToApply, level, AbilitySystemComp->MakeEffectContext());
 	AbilitySystemComp->ApplyGameplayEffectSpecToSelf(*Spec.Data);
+}
+
+FGameplayAbilitySpec* ABaseCharacter::GiveAbility(const TSubclassOf<class UGameplayAbility>& newAbility, int inputID, bool broadCast, int level)
+{
+	FGameplayAbilitySpecHandle specHandle = AbilitySystemComp->GiveAbility(FGameplayAbilitySpec(newAbility, level, inputID));
+	FGameplayAbilitySpec* spec = AbilitySystemComp->FindAbilitySpecFromHandle(specHandle);
+	return spec;
 }
 
