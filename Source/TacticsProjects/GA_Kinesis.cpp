@@ -97,6 +97,7 @@ void UGA_Kinesis::LaunchTarget(FGameplayEventData Payload)
 {
 	if (GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->GetGrabbedComponent())
 	{
+		K2_CommitAbility();
 		UPrimitiveComponent* comp = GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->GetGrabbedComponent();
 		GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->ReleaseComponent();
 		FVector ViewLoc;
