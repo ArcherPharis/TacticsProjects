@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "LVAbilityTypes.h"
 #include "LVAttributeSet.h"
 
@@ -15,6 +16,8 @@ APlayerCharacter::APlayerCharacter()
 	springArm->SetupAttachment(GetMesh(), TEXT("headSocket"));
 	playerEyes = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Eyes"));
 	playerEyes->SetupAttachment(springArm);
+	KinesisHoldingLocation = CreateDefaultSubobject<USceneComponent>(TEXT("KinesisLocation"));
+	KinesisHoldingLocation->SetupAttachment(playerEyes);
 
 }
 
@@ -23,7 +26,13 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	//GetMesh()->AttachToComponent(playerEyes, FAttachmentTransformRules::KeepWorldTransform);
 	GetProjectileSpawnLocation()->AttachToComponent(playerEyes, FAttachmentTransformRules::KeepRelativeTransform);
-	onOxygenChange.Broadcast(reservedOxygen);
+	onOxygenChange.Broadcast(GetAttributeSet()->GetReservedOxygen());
+}
+
+void APlayerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	GetPhysicsHandleComponent()->SetTargetLocation(GetKinesisLocation()->GetComponentLocation());
 }
 
 
@@ -48,7 +57,7 @@ bool APlayerCharacter::HasReservedOxygen()
 {
 
 
-	if (reservedOxygen > 0 && GetAttributeSet()->GetOxygen() != GetAttributeSet()->GetMaxOxygen())
+	if (GetAttributeSet()->GetReservedOxygen() > 0 && GetAttributeSet()->GetOxygen() != GetAttributeSet()->GetMaxOxygen())
 	{
 		return true;
 	}
@@ -59,23 +68,23 @@ bool APlayerCharacter::HasReservedOxygen()
 void APlayerCharacter::RefillOxygen()
 { 
 	float currentOxygenPercent = (GetAttributeSet()->GetOxygen() / GetAttributeSet()->GetMaxOxygen()) * 100 ;
-	if (reservedOxygen >= 100)
+	if (GetAttributeSet()->GetReservedOxygen() >= 100)
 	{
 		//reserved oxygen is at 100 percent or greater
 		if (currentOxygenPercent == 0)
 		{
-			reservedOxygen -= 100;
+			GetAttributeSet()->SetReservedOxygen(GetAttributeSet()->GetReservedOxygen() - 100);
 			GetAttributeSet()->SetOxygen(GetAttributeSet()->GetMaxOxygen());
-			onOxygenChange.Broadcast(reservedOxygen);
+			onOxygenChange.Broadcast(GetAttributeSet()->GetReservedOxygen());
 
 		}
 		else
 		{
 			float percentReq = 100 - currentOxygenPercent; //say we had 30 left, so we'd need 70.
-			reservedOxygen -= percentReq; //this was 100, taking away 70 gives us 30 remaining.
+			GetAttributeSet()->SetReservedOxygen(GetAttributeSet()->GetReservedOxygen() - percentReq); //this was 100, taking away 70 gives us 30 remaining.
 			//we're giving oxygen 70%, so we'd need 70% of our max oxygen
 			GetAttributeSet()->SetOxygen(GetAttributeSet()->GetOxygen() + (GetAttributeSet()->GetMaxOxygen() * (percentReq/100)));
-			onOxygenChange.Broadcast(reservedOxygen);
+			onOxygenChange.Broadcast(GetAttributeSet()->GetReservedOxygen());
 		}
 
 	}
@@ -83,17 +92,17 @@ void APlayerCharacter::RefillOxygen()
 	{
 		float percentReq = 100 - currentOxygenPercent;
 
-		if (reservedOxygen > percentReq)
+		if (GetAttributeSet()->GetReservedOxygen() > percentReq)
 		{
-			reservedOxygen -= percentReq;
+			GetAttributeSet()->SetReservedOxygen(GetAttributeSet()->GetReservedOxygen() - percentReq);
 			GetAttributeSet()->SetOxygen(GetAttributeSet()->GetOxygen() + (GetAttributeSet()->GetMaxOxygen() * (percentReq / 100)));
-			onOxygenChange.Broadcast(reservedOxygen);
+			onOxygenChange.Broadcast(GetAttributeSet()->GetReservedOxygen());
 		}
 		else
 		{
-			GetAttributeSet()->SetOxygen(GetAttributeSet()->GetOxygen() + (GetAttributeSet()->GetMaxOxygen() * (reservedOxygen / 100)));
-			reservedOxygen = 0;
-			onOxygenChange.Broadcast(reservedOxygen);
+			GetAttributeSet()->SetOxygen(GetAttributeSet()->GetOxygen() + (GetAttributeSet()->GetMaxOxygen() * (GetAttributeSet()->GetReservedOxygen()/ 100)));
+			GetAttributeSet()->SetReservedOxygen(0);
+			onOxygenChange.Broadcast(GetAttributeSet()->GetReservedOxygen());
 		}
 
 	}
@@ -122,7 +131,6 @@ void APlayerCharacter::Turn(float value)
 
 void APlayerCharacter::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Sending Event"));
 	//todo the eventual Rune class would have a method that would have something like:get firing ability
 	FGameplayAbilitySpec* FireAbilitySpec = GetAbilitySystemComponent()->FindAbilitySpecFromClass(FireAbility);
 	if (FireAbilitySpec->IsActive())
@@ -133,6 +141,7 @@ void APlayerCharacter::Fire()
 	{
 		GetAbilitySystemComponent()->TryActivateAbilityByClass(FireAbility);
 	}
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, launchTag, FGameplayEventData());
 }
 
 void APlayerCharacter::OxygenUpdated(const FOnAttributeChangeData& AttributeData)

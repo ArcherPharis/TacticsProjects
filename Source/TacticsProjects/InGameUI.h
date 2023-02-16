@@ -17,6 +17,7 @@ class TACTICSPROJECTS_API UInGameUI : public UUserWidget
 public:
 	void UpdateOxygenBar(float oxygen, float maxOxygen);
 	void UpdateHealth(float health, float maxHealth);
+	void UpdateCapacityBar(float capacity, float maxCapacity);
 	void UpdateOxygenReserves(float newVal);
 
 private:

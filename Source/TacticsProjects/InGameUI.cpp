@@ -15,6 +15,11 @@ void UInGameUI::UpdateHealth(float health, float maxHealth)
 	healthBar->SetPercent(health / maxHealth);
 }
 
+void UInGameUI::UpdateCapacityBar(float capacity, float maxCapacity)
+{
+	capacityBar->SetPercent(capacity / maxCapacity);
+}
+
 void UInGameUI::UpdateOxygenReserves(float newVal)
 {
 	oxygenPercent->SetText(FText::FromString(FString::SanitizeFloat(FMath::RoundHalfToZero(newVal))));

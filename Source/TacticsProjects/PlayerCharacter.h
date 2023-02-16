@@ -20,6 +20,7 @@ public:
 	APlayerCharacter();
 
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -43,9 +44,10 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameplayAbility")
 	FGameplayTag BasicFireCombo;
+	UPROPERTY(EditDefaultsOnly, Category = "GameplayAbility")
+	FGameplayTag launchTag;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")
-	float reservedOxygen = 100.f;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")
 	TSubclassOf<class UGameplayEffect> OutOfOxygenHealthDrainEffect;
 	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")

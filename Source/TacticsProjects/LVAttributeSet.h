@@ -43,6 +43,14 @@ public:
 	ATTRIBUTE_ACCESSORS(ULVAttributeSet, MaxOxygen);
 
 	UPROPERTY()
+	FGameplayAttributeData ReservedOxygen;
+	ATTRIBUTE_ACCESSORS(ULVAttributeSet, ReservedOxygen);
+
+	UPROPERTY()
+	FGameplayAttributeData MaxReservedOxygen;
+	ATTRIBUTE_ACCESSORS(ULVAttributeSet, MaxReservedOxygen);
+
+	UPROPERTY()
 	FGameplayAttributeData Capcity;
 	ATTRIBUTE_ACCESSORS(ULVAttributeSet, Capcity);
 

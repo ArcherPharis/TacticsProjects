@@ -30,6 +30,7 @@ private:
 
 	void OxygenUpdated(const FOnAttributeChangeData& AttributeData);
 	void HealthUpdated(const FOnAttributeChangeData& AttributeData);
+	void CapacityUpdated(const FOnAttributeChangeData& AttributeData);
 
 	UFUNCTION()
 	void OxygenReserveUpdated(float oxy);

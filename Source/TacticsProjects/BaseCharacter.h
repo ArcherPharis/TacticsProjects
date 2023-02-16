@@ -37,6 +37,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "PlayerCharacter")
 	USceneComponent* GetProjectileSpawnLocation() const { return ProjectileSpawnLocation; }
+	UFUNCTION(BlueprintCallable, Category = "PlayerCharacter")
+	USceneComponent* GetKinesisLocation() const { return KinesisHoldingLocation; }
+
+	FORCEINLINE class UPhysicsHandleComponent* GetPhysicsHandleComponent() const { return physicsHandleComponent; }
 
 protected:
 
@@ -45,9 +49,17 @@ protected:
 
 	virtual void OxygenUpdated(const FOnAttributeChangeData& AttributeData);
 
+	UPROPERTY(EditDefaultsOnly, Category = "Physics")
+	USceneComponent* KinesisHoldingLocation;
+
 private:
 	UPROPERTY()
 	class ULVAbilitySystemComponent* AbilitySystemComp;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Physics")
+	UPhysicsHandleComponent* physicsHandleComponent;
+
+
 
 	UPROPERTY()
 	class ULVAttributeSet* AttributeSet;

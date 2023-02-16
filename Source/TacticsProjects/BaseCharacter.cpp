@@ -5,6 +5,7 @@
 #include "LVAbilitySystemComponent.h"
 #include "LVAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 
 
 // Sets default values
@@ -16,6 +17,8 @@ ABaseCharacter::ABaseCharacter()
 	AttributeSet = CreateDefaultSubobject<ULVAttributeSet>("AttributeSet");
 	ProjectileSpawnLocation = CreateDefaultSubobject<USceneComponent>(TEXT("SpawnLocation"));
 	ProjectileSpawnLocation->SetupAttachment(RootComponent);
+	physicsHandleComponent = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("PhysicsHandleComp"));
+
 
 }
 
