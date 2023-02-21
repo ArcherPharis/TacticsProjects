@@ -32,13 +32,22 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
-void UInventoryComponent::AddToInventory(TSubclassOf<class ABaseItem> item, int amount)
+void UInventoryComponent::AddToInventory(ABaseItem* item, int amount)
 {
-	int* quantity = Inventory.Find(item) + amount;
-	Inventory.Add(item, FMath::Clamp( *quantity, 0, 99));
+	if (!Inventory.Find(item))
+	{
+		Inventory.Add(item, amount);
+	}
+	else
+	{
+		int* quantity = Inventory.Find(item) + amount;
+		Inventory.Add(item, FMath::Clamp(*quantity, 0, 99));
+	}
+
+	
 }
 
-bool UInventoryComponent::QueryInventory(TSubclassOf<class ABaseItem> item, int amount, int& QuanityOfItem)
+bool UInventoryComponent::QueryInventory(ABaseItem* item, int amount, int& QuanityOfItem)
 {
 	//checks if we have enough of the item we need for a crafting recipe or something.
 	int* quanitity = Inventory.Find(item);
@@ -56,7 +65,7 @@ bool UInventoryComponent::QueryInventory(TSubclassOf<class ABaseItem> item, int 
 	return false;
 }
 
-void UInventoryComponent::RemoveFromInventory(TSubclassOf<class ABaseItem> item, int amount)
+void UInventoryComponent::RemoveFromInventory(ABaseItem* item, int amount)
 {
 	int quanitity;
 

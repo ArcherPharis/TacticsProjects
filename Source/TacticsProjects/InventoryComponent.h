@@ -25,12 +25,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	void AddToInventory(TSubclassOf<ABaseItem> itemToAdd, int amount);
-	bool QueryInventory(TSubclassOf<ABaseItem> itemToQuery, int amount, int& QuanityOfItem);
-	void RemoveFromInventory(TSubclassOf<ABaseItem> itemToRemove, int amount);
+	UFUNCTION(BlueprintCallable)
+	void AddToInventory(ABaseItem* itemToAdd, int amount);
+	UFUNCTION(BlueprintCallable)
+	bool QueryInventory(ABaseItem* itemToQuery, int amount, int& QuanityOfItem);
+	UFUNCTION(BlueprintCallable)
+	void RemoveFromInventory(ABaseItem* itemToRemove, int amount);
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
-	TMap<TSubclassOf<ABaseItem>, int> Inventory;
+	TMap<ABaseItem*, int> Inventory;
 };

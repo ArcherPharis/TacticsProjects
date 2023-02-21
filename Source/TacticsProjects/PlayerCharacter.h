@@ -19,6 +19,9 @@ class TACTICSPROJECTS_API APlayerCharacter : public ABaseCharacter
 public:
 	APlayerCharacter();
 
+	UFUNCTION(BlueprintPure, Category = "Player Inventory")
+	FORCEINLINE class UInventoryComponent* GetInventoryComponent() const { return inventoryComp; }
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
@@ -38,7 +41,7 @@ private:
 	class USpringArmComponent* springArm;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
-	class UInventoryComponent* inventoryComp;
+	UInventoryComponent* inventoryComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
 	float GrabRange = 200.f;
