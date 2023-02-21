@@ -4,6 +4,9 @@
 #include "InGameUI.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
+#include "Components/WidgetSwitcher.h"
+#include "Components/CanvasPanel.h"
+
 
 void UInGameUI::UpdateOxygenBar(float oxygen, float maxOxygen)
 {
@@ -23,4 +26,19 @@ void UInGameUI::UpdateCapacityBar(float capacity, float maxCapacity)
 void UInGameUI::UpdateOxygenReserves(float newVal)
 {
 	oxygenPercent->SetText(FText::FromString(FString::SanitizeFloat(FMath::RoundHalfToZero(newVal))));
+}
+
+void UInGameUI::ToggleInventoryCanvas(bool& inInventory)
+{
+	if (widgetSwitcher->GetActiveWidget() == inGameCanvas)
+	{
+		widgetSwitcher->SetActiveWidget(inventoryCanvas);
+		inInventory = true;
+		return;
+	}
+	if (widgetSwitcher->GetActiveWidget() == inventoryCanvas)
+	{
+		widgetSwitcher->SetActiveWidget(inGameCanvas);
+	}
+	inInventory = false;
 }

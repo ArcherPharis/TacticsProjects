@@ -17,7 +17,6 @@ void ALVPlayerController::OnPossess(APawn* newPawn)
 		playerCharacter->GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(playerCharacter->GetAttributeSet()->GetOxygenAttribute()).AddUObject(this, &ALVPlayerController::OxygenUpdated);
 		playerCharacter->GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(playerCharacter->GetAttributeSet()->GetHealthAttribute()).AddUObject(this, &ALVPlayerController::HealthUpdated);
 		playerCharacter->GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(playerCharacter->GetAttributeSet()->GetCapcityAttribute()).AddUObject(this, &ALVPlayerController::CapacityUpdated);
-
 		playerCharacter->onOxygenChange.AddDynamic(this, &ALVPlayerController::OxygenReserveUpdated);
 
 	}
@@ -48,8 +47,38 @@ void ALVPlayerController::CapacityUpdated(const FOnAttributeChangeData& Attribut
 	inGameUI->UpdateCapacityBar(AttributeData.NewValue, playerCharacter->GetAttributeSet()->GetMaxCapacity());
 }
 
+void ALVPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	if (InputComponent)
+	{
+		FInputActionBinding& InventoryInputBind = InputComponent->BindAction("Inventory", IE_Pressed, this, &ALVPlayerController::ToggleUIInventory);
+		InventoryInputBind.bExecuteWhenPaused = true;
+	}
+
+}
+
 void ALVPlayerController::OxygenReserveUpdated(float oxy)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Getting to character controller: %f"), oxy);
 	inGameUI->UpdateOxygenReserves(oxy);
+}
+
+void ALVPlayerController::ToggleUIInventory()
+{
+	bool inInv;
+	inGameUI->ToggleInventoryCanvas(inInv);
+	if (inInv)
+	{
+		SetInputMode(FInputModeGameAndUI());
+		SetPause(true);
+		bShowMouseCursor = true;
+	}
+	else
+	{
+		SetInputMode(FInputModeGameOnly());
+		SetPause(false);
+		bShowMouseCursor = false;
+
+	}
 }

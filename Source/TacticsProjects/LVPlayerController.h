@@ -32,7 +32,12 @@ private:
 	void HealthUpdated(const FOnAttributeChangeData& AttributeData);
 	void CapacityUpdated(const FOnAttributeChangeData& AttributeData);
 
+	virtual void SetupInputComponent() override;
+
 	UFUNCTION()
 	void OxygenReserveUpdated(float oxy);
+
+	UFUNCTION()
+	void ToggleUIInventory();
 	
 };

@@ -168,6 +168,7 @@ void APlayerCharacter::Interact()
 	}
 }
 
+
 void APlayerCharacter::OxygenUpdated(const FOnAttributeChangeData& AttributeData)
 {
 	Super::OxygenUpdated(AttributeData);

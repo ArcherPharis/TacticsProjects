@@ -19,6 +19,8 @@ public:
 	void UpdateHealth(float health, float maxHealth);
 	void UpdateCapacityBar(float capacity, float maxCapacity);
 	void UpdateOxygenReserves(float newVal);
+	void ToggleInventoryCanvas(bool& inInventory);
+
 
 private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -31,6 +33,12 @@ private:
 	class UImage* crossHair;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* oxygenPercent;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UCanvasPanel* inGameCanvas;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UCanvasPanel* inventoryCanvas;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* widgetSwitcher;
 
 	
 };
