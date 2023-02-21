@@ -37,6 +37,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Base Character")
 	class USpringArmComponent* springArm;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
+	class UInventoryComponent* inventoryComp;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
+	float GrabRange = 200.f;
+
 
 	//todo, when we change the Fire Ability to a new one, this class needs to change too.
 	UPROPERTY(EditDefaultsOnly, Category = "GameplayAbility")
@@ -58,6 +64,7 @@ private:
 	void LookUp(float value);
 	void Turn(float value);
 	void Fire();
+	void Interact();
 
 	virtual void OxygenUpdated(const FOnAttributeChangeData& AttributeData) override;
 	bool reachedZero = false;

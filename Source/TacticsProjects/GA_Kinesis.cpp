@@ -7,6 +7,7 @@
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
 #include "Abilities/Tasks/AbilityTask_WaitInputRelease.h"
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
+#include "KinesisProjectileComponent.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 
 void UGA_Kinesis::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
@@ -99,6 +100,13 @@ void UGA_Kinesis::LaunchTarget(FGameplayEventData Payload)
 	{
 		K2_CommitAbility();
 		UPrimitiveComponent* comp = GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->GetGrabbedComponent();
+		AActor* launchedActor = comp->GetOwner();
+		if (launchedActor)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("added comp"));
+			 launchedActor->AddComponentByClass(UKinesisProjectileComponent::StaticClass(), false, launchedActor->GetTransform(), false);
+			 comp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
+		}
 		GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->ReleaseComponent();
 		FVector ViewLoc;
 		FRotator ViewRot;

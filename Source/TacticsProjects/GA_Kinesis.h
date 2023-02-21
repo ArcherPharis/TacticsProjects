@@ -22,6 +22,8 @@ private:
 	UAnimMontage* kinesisMontage;
 	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
 	UAnimMontage* launchTargetMontage;
+	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
+	TSubclassOf<UActorComponent> kinesisComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
 	FGameplayTag BeginKinesisTag;

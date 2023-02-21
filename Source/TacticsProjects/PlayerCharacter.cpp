@@ -7,6 +7,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "InventoryComponent.h"
 #include "LVAbilityTypes.h"
 #include "LVAttributeSet.h"
 
@@ -18,6 +19,7 @@ APlayerCharacter::APlayerCharacter()
 	playerEyes->SetupAttachment(springArm);
 	KinesisHoldingLocation = CreateDefaultSubobject<USceneComponent>(TEXT("KinesisLocation"));
 	KinesisHoldingLocation->SetupAttachment(playerEyes);
+	inventoryComp = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory Comp"));
 
 }
 
@@ -45,6 +47,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAction(TEXT("Jump"),IE_Pressed,  this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &APlayerCharacter::Fire);
+	PlayerInputComponent->BindAction(TEXT("Interact"), IE_Pressed, this, &APlayerCharacter::Interact);
 	GetAbilitySystemComponent()->BindAbilityActivationToInputComponent(PlayerInputComponent, FGameplayAbilityInputBinds("Confirm",
 		"Cancel",
 		"ELVAbilityInputID",
@@ -142,6 +145,27 @@ void APlayerCharacter::Fire()
 		GetAbilitySystemComponent()->TryActivateAbilityByClass(FireAbility);
 	}
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, launchTag, FGameplayEventData());
+}
+
+void APlayerCharacter::Interact()
+{
+	FHitResult traceResult;
+	FVector ViewLoc;
+	FRotator ViewRot;
+	FCollisionQueryParams CollisionParameters;
+	//CollisionParameters.AddIgnoredActor(this);
+	GetActorEyesViewPoint(ViewLoc, ViewRot);
+	if (GetWorld()->LineTraceSingleByChannel(traceResult, ViewLoc, ViewLoc + ViewRot.Vector() * GrabRange, ECC_GameTraceChannel2, CollisionParameters))
+	{
+		if (traceResult.bBlockingHit)
+		{
+			
+			AActor* hitActor = traceResult.GetActor();
+			IInteractInterface* interactInferface = Cast<IInteractInterface>(hitActor);
+			interactInferface->Execute_InteractWith(hitActor, this);
+			
+		}
+	}
 }
 
 void APlayerCharacter::OxygenUpdated(const FOnAttributeChangeData& AttributeData)
