@@ -42,10 +42,11 @@ void UExecCalc_KinesisProjectile::Execute_Implementation(const FGameplayEffectCu
 
 	//ExecParams.AttemptCalculateTransientAggregatorMagnitude(FGameplayTag::RequestGameplayTag("Exec.Kinesis.Contact"), FAggregatorEvaluateParameters(), ProjectileDamage);
 	const FGameplayEffectSpec& Spec = ExecParams.GetOwningSpec();
-	ContactDamage = Spec.GetSetByCallerMagnitude(TEXT("Executes.Kinesis.Contact"));
+	ContactDamage = Spec.GetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag("Executes.Kinesis.Contact"));
 	ExecParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageCapture().HealthDef, FAggregatorEvaluateParameters(), HealthMagnitude);
 
 	OutHealth = HealthMagnitude - ContactDamage;
+	UE_LOG(LogTemp, Warning, TEXT("Contact Damage: %f, OutDamage: %f"), ContactDamage, OutHealth);
 	ExecOutputs.AddOutputModifier(FGameplayModifierEvaluatedData(GetDamageCapture().HealthProperty, EGameplayModOp::Override, OutHealth));
 }
 

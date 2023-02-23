@@ -6,6 +6,9 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "Components/CanvasPanel.h"
+#include "Components/TileView.h"
+#include "ItemEntry.h"
+
 
 
 void UInGameUI::UpdateOxygenBar(float oxygen, float maxOxygen)
@@ -42,3 +45,10 @@ void UInGameUI::ToggleInventoryCanvas(bool& inInventory)
 	}
 	inInventory = false;
 }
+
+void UInGameUI::NewItemGiven(UObject* itemToAddToList, int amount)
+{
+	//itemList->AddItem(itemToAddToList);
+
+}
+

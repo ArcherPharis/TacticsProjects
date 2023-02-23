@@ -50,12 +50,17 @@ void UKinesisProjectileComponent::ActorHit(AActor* SelfActor, AActor* OtherActor
 	ULVAbilitySystemComponent* ASC = OtherActor->FindComponentByClass<ULVAbilitySystemComponent>();
 	if (ASC)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Found Ability System Component"));
-		float testFloat = 10.f;
-		FGameplayEffectContextHandle handle;
-		FGameplayEffectSpecHandle specHan = ASC->MakeOutgoingSpec(contactGameplayEffect, -1, handle);
-		specHan.Data.Get()->SetSetByCallerMagnitude(contactTag, testFloat);
-		//ASC->ApplyGameplayEffectSpecToSelf(*specHan.Data.Get());
+		float speed = GetOwner()->GetVelocity().Length();
+		float mass = 1.f;
+		UPrimitiveComponent* PrimComp = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+		if (PrimComp)
+		{
+			mass = PrimComp->GetMass();
+		}
+		float damage = (speed * mass) / 500;
+		FGameplayEffectSpecHandle specHan = ASC->MakeOutgoingSpec(contactGameplayEffect, -1, ASC->MakeEffectContext());
+		specHan.Data.Get()->SetSetByCallerMagnitude(contactTag, damage);
+		ASC->ApplyGameplayEffectSpecToSelf(*specHan.Data.Get());
 
 		
 	}

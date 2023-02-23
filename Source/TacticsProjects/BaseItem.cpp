@@ -2,6 +2,9 @@
 
 
 #include "BaseItem.h"
+#include "InventoryComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "PlayerCharacter.h"
 
 // Sets default values
 ABaseItem::ABaseItem()
@@ -28,6 +31,5 @@ void ABaseItem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
 
 

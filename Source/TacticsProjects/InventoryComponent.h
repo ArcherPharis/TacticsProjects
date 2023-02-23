@@ -8,6 +8,9 @@
 #include "InventoryComponent.generated.h"
 
 class ABaseItem;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnNewItem, UObject*, item, AActor*, ownerCharacter);
+
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TACTICSPROJECTS_API UInventoryComponent : public UActorComponent
@@ -31,6 +34,10 @@ public:
 	bool QueryInventory(TSubclassOf<ABaseItem> itemToQuery, int amount, int& QuanityOfItem);
 	UFUNCTION(BlueprintCallable)
 	void RemoveFromInventory(TSubclassOf<ABaseItem> itemToRemove, int amount);
+	UFUNCTION(BlueprintCallable)
+	TMap<TSubclassOf<ABaseItem>, int> GetInventory() const { return Inventory; }
+
+	FOnNewItem onNewItem;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")

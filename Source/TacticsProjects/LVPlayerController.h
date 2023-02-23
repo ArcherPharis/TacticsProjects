@@ -20,6 +20,9 @@ public:
 
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintPure, Category = "PlayerController")
+	class UInGameUI* GetUI() const { return inGameUI; }
+
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	TSubclassOf<class UInGameUI> inGameUIClass;
@@ -39,5 +42,8 @@ private:
 
 	UFUNCTION()
 	void ToggleUIInventory();
+
+	UFUNCTION()
+	void AddNewItemToInventoryList(UObject* itemToAdd, AActor* InventoryOwner);
 	
 };

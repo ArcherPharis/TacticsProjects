@@ -37,6 +37,7 @@ void UInventoryComponent::AddToInventory(TSubclassOf<ABaseItem> item, int amount
 	if (!Inventory.Find(item))
 	{
 		Inventory.Add(item, amount);
+		//onNewItem.Broadcast(item->GetDefaultObject(), GetOwner());
 	}
 	else
 	{
@@ -50,17 +51,10 @@ void UInventoryComponent::AddToInventory(TSubclassOf<ABaseItem> item, int amount
 bool UInventoryComponent::QueryInventory(TSubclassOf<ABaseItem> item, int amount, int& QuanityOfItem)
 {
 	//checks if we have enough of the item we need for a crafting recipe or something.
-	int* quanitity = Inventory.Find(item);
-
-	if (amount >= *quanitity && Inventory.Find(item))
+	if (Inventory.Find(item) && *Inventory.Find(item) >= amount)
 	{
-		QuanityOfItem = *quanitity;
+		QuanityOfItem = *Inventory.Find(item);
 		return true;
-	}
-	else
-	{
-		QuanityOfItem = *quanitity;
-		return false;
 	}
 	return false;
 }

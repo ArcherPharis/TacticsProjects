@@ -45,6 +45,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
 	float GrabRange = 200.f;
 
+	UPROPERTY(EditAnywhere, Category = "Interaction")
+	bool reportHP = false;
+
 
 	//todo, when we change the Fire Ability to a new one, this class needs to change too.
 	UPROPERTY(EditDefaultsOnly, Category = "GameplayAbility")

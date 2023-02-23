@@ -5,6 +5,7 @@
 #include "PlayerCharacter.h"
 #include "LVAbilitySystemComponent.h"
 #include "LVAttributeSet.h"
+#include "InventoryComponent.h"
 #include "InGameUI.h"
 
 void ALVPlayerController::OnPossess(APawn* newPawn)
@@ -18,6 +19,7 @@ void ALVPlayerController::OnPossess(APawn* newPawn)
 		playerCharacter->GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(playerCharacter->GetAttributeSet()->GetHealthAttribute()).AddUObject(this, &ALVPlayerController::HealthUpdated);
 		playerCharacter->GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(playerCharacter->GetAttributeSet()->GetCapcityAttribute()).AddUObject(this, &ALVPlayerController::CapacityUpdated);
 		playerCharacter->onOxygenChange.AddDynamic(this, &ALVPlayerController::OxygenReserveUpdated);
+		playerCharacter->GetInventoryComponent()->onNewItem.AddDynamic(this, &ALVPlayerController::AddNewItemToInventoryList);
 
 	}
 }
@@ -81,4 +83,10 @@ void ALVPlayerController::ToggleUIInventory()
 		bShowMouseCursor = false;
 
 	}
+}
+
+void ALVPlayerController::AddNewItemToInventoryList(UObject* itemToAdd, AActor* InventoryOwner)
+{
+	int* amountToGet = playerCharacter->GetInventoryComponent()->GetInventory().Find(itemToAdd->GetClass());
+	inGameUI->NewItemGiven(itemToAdd, *amountToGet);
 }

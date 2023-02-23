@@ -17,8 +17,8 @@ enum ItemType
 	//items
 	Food UMETA(DisplayName = "Food"),
 	Restorative UMETA(DisplayName = "Restorative"),
-	BattleItem UMETA(DisplayName = "BattleItem"),
-	AbilityGiving UMETA(DisplayName = "AbilityGiving")
+	BattleItem UMETA(DisplayName = "Battle Item"),
+	AbilityGiving UMETA(DisplayName = "Special")
 };
 
 
@@ -39,13 +39,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Item")
+	UFUNCTION(BlueprintCallable, Category = "Default")
 	FORCEINLINE FText GetItemName() const { return ItemName; }
 
-	UFUNCTION(BlueprintCallable, Category = "Item")
+	UFUNCTION(BlueprintCallable, Category = "Default")
 	FORCEINLINE FText GetItemDescription() const { return ItemDescription; }
 
-	UFUNCTION(BlueprintCallable, Category = "Item")
+	UFUNCTION(BlueprintCallable, Category = "Default")
 	FORCEINLINE UTexture2D* GetItemIcon() const { return ItemIcon; }
 
 	UFUNCTION(BlueprintImplementableEvent)
@@ -53,29 +53,36 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void InteractWith(APlayerCharacter* player);
 
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default", meta = (MultiLine = true))
+		FText ItemName;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default", meta = (MultiLine = true))
+		FText ItemDescription;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default")
+		UTexture2D* ItemIcon;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default")
+		bool bIsCraftable = false;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default")
+	TEnumAsByte<ItemType> itemType;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default")
+	TMap<TSubclassOf<ABaseItem>, int> CraftingRecipe;
+
+
 private:
 
 
-	UPROPERTY(EditDefaultsOnly, Category = "Item", meta = (MultiLine = true))
-	FText ItemName;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Item", meta = (MultiLine = true))
-	FText ItemDescription;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Item", meta = (MultiLine = true))
-	UTexture2D* ItemIcon;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Item", meta = (MultiLine = true))
-	bool bIsCraftable = false;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Item")
-	TEnumAsByte<ItemType> itemType;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Item")
 	UStaticMeshComponent* ItemMesh;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Item")
 	USceneComponent* RootComp;
+
+
 
 
 

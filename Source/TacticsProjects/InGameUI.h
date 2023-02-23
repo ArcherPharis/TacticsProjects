@@ -21,6 +21,8 @@ public:
 	void UpdateOxygenReserves(float newVal);
 	void ToggleInventoryCanvas(bool& inInventory);
 
+	UFUNCTION()
+	void NewItemGiven(UObject* itemToAddToList, int amount);
 
 private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -39,6 +41,9 @@ private:
 	UCanvasPanel* inventoryCanvas;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UWidgetSwitcher* widgetSwitcher;
+
+	//UPROPERTY(meta = (BindWidget))
+	//class UTileView* itemList;
 
 	
 };
