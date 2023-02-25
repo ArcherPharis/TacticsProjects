@@ -31,6 +31,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddToInventory(TSubclassOf<ABaseItem> itemToAdd, int amount);
 	UFUNCTION(BlueprintCallable)
+	void AddToEquipment(TSubclassOf<ABaseItem> itemToAdd, int amount);
+	UFUNCTION(BlueprintCallable)
 	bool QueryInventory(TSubclassOf<ABaseItem> itemToQuery, int amount, int& QuanityOfItem);
 	UFUNCTION(BlueprintCallable)
 	void RemoveFromInventory(TSubclassOf<ABaseItem> itemToRemove, int amount);
@@ -42,4 +44,7 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	TMap<TSubclassOf<ABaseItem>, int> Inventory;
+
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	TMap<TSubclassOf<ABaseItem>, int> EquippedItems;
 };

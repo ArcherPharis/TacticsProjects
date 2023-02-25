@@ -17,5 +17,6 @@ enum class ELVAbilityInputID : uint8
 	SlotThree,
 	SlotFour,
 	UseOxygen,
-	Kinesis
+	Kinesis,
+	Interact
 };

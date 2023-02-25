@@ -20,6 +20,9 @@ public:
 
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable)
+	void ToggleUIInventory();
+
 	UFUNCTION(BlueprintPure, Category = "PlayerController")
 	class UInGameUI* GetUI() const { return inGameUI; }
 
@@ -40,8 +43,7 @@ private:
 	UFUNCTION()
 	void OxygenReserveUpdated(float oxy);
 
-	UFUNCTION()
-	void ToggleUIInventory();
+
 
 	UFUNCTION()
 	void AddNewItemToInventoryList(UObject* itemToAdd, AActor* InventoryOwner);

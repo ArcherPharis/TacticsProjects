@@ -58,7 +58,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Physics")
 	UPhysicsHandleComponent* physicsHandleComponent;
-
+	UPROPERTY(EditAnywhere, Category = "Interaction")
+	bool reportHP = false;
 
 
 	UPROPERTY()

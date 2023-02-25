@@ -63,7 +63,9 @@ public:
 		UTexture2D* ItemIcon;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default")
-		bool bIsCraftable = false;
+	bool bIsCraftable = false;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default")
+	TSubclassOf<class UGameplayEffect> effectToApply;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default")
 	TEnumAsByte<ItemType> itemType;

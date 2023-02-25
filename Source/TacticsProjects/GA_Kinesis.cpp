@@ -56,8 +56,7 @@ void UGA_Kinesis::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGam
 
 void UGA_Kinesis::PlayerReleasedInput(float timeHeld)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Ending kinesis ability via released input"));
-	K2_EndAbility();
+	ReleaseHeldItem();
 }
 
 void UGA_Kinesis::MontageOut()

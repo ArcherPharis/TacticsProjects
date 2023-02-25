@@ -41,11 +41,27 @@ void UInventoryComponent::AddToInventory(TSubclassOf<ABaseItem> item, int amount
 	}
 	else
 	{
-		int* quantity = Inventory.Find(item) + amount;
-		Inventory.Add(item, FMath::Clamp(*quantity, 0, 99));
+		int quantity = *Inventory.Find(item) + amount;
+		Inventory.Add(item, FMath::Clamp(quantity, 0, 99));
 	}
 
 	
+}
+
+void UInventoryComponent::AddToEquipment(TSubclassOf<ABaseItem> itemToAdd, int amount)
+{
+
+	if (EquippedItems.Num() >= 3)
+	{
+		EquippedItems.begin()->Key = itemToAdd;
+		EquippedItems.begin()->Value = amount;
+
+	}
+	else
+	{
+		EquippedItems.Add(itemToAdd, amount);
+	}
+
 }
 
 bool UInventoryComponent::QueryInventory(TSubclassOf<ABaseItem> item, int amount, int& QuanityOfItem)

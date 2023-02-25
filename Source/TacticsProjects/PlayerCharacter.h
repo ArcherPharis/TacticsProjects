@@ -18,6 +18,11 @@ class TACTICSPROJECTS_API APlayerCharacter : public ABaseCharacter
 public:
 	APlayerCharacter();
 
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void Interact();
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void UpdateOxygenReservesFlat();
+
 	UFUNCTION(BlueprintPure, Category = "Player Inventory")
 	FORCEINLINE class UInventoryComponent* GetInventoryComponent() const { return inventoryComp; }
 
@@ -37,6 +42,9 @@ private:
 	class UCameraComponent* playerEyes;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Base Character")
+	UAnimMontage* grabAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Base Character")
 	class USpringArmComponent* springArm;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
@@ -45,8 +53,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
 	float GrabRange = 200.f;
 
-	UPROPERTY(EditAnywhere, Category = "Interaction")
-	bool reportHP = false;
+
 
 
 	//todo, when we change the Fire Ability to a new one, this class needs to change too.
@@ -69,7 +76,7 @@ private:
 	void LookUp(float value);
 	void Turn(float value);
 	void Fire();
-	void Interact();
+	
 
 	virtual void OxygenUpdated(const FOnAttributeChangeData& AttributeData) override;
 	bool reachedZero = false;

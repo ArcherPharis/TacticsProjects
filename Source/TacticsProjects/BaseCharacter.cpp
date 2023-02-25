@@ -40,7 +40,11 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
+	if (reportHP)
+	{
+		float currentHP = GetAttributeSet()->GetHealth();
+		UE_LOG(LogTemp, Warning, TEXT("hp: %f"), currentHP);
+	}
 }
 
 // Called to bind functionality to input

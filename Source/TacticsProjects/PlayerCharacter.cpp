@@ -35,11 +35,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	GetPhysicsHandleComponent()->SetTargetLocation(GetKinesisLocation()->GetComponentLocation());
-	if (reportHP)
-	{
-		float currentHP = GetAttributeSet()->GetHealth();
-		UE_LOG(LogTemp, Warning, TEXT("hp: %f"), currentHP);
-	}
+
 }
 
 
@@ -52,7 +48,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAction(TEXT("Jump"),IE_Pressed,  this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &APlayerCharacter::Fire);
-	PlayerInputComponent->BindAction(TEXT("Interact"), IE_Pressed, this, &APlayerCharacter::Interact);
+	//PlayerInputComponent->BindAction(TEXT("Interact"), IE_Pressed, this, &APlayerCharacter::Interact);
 	GetAbilitySystemComponent()->BindAbilityActivationToInputComponent(PlayerInputComponent, FGameplayAbilityInputBinds("Confirm",
 		"Cancel",
 		"ELVAbilityInputID",
@@ -164,13 +160,18 @@ void APlayerCharacter::Interact()
 	{
 		if (traceResult.bBlockingHit)
 		{
-			
+			UE_LOG(LogTemp, Warning, TEXT("Found something interactable"));
 			AActor* hitActor = traceResult.GetActor();
 			IInteractInterface* interactInferface = Cast<IInteractInterface>(hitActor);
 			interactInferface->Execute_InteractWith(hitActor, this);
 			
 		}
 	}
+}
+
+void APlayerCharacter::UpdateOxygenReservesFlat()
+{
+	onOxygenChange.Broadcast(GetAttributeSet()->GetReservedOxygen());
 }
 
 
