@@ -61,7 +61,7 @@ void UKinesisProjectileComponent::ActorHit(AActor* SelfActor, AActor* OtherActor
 		FGameplayEffectSpecHandle specHan = ASC->MakeOutgoingSpec(contactGameplayEffect, -1, ASC->MakeEffectContext());
 		specHan.Data.Get()->SetSetByCallerMagnitude(contactTag, damage);
 		ASC->ApplyGameplayEffectSpecToSelf(*specHan.Data.Get());
-
+		UE_LOG(LogTemp, Warning, TEXT("%f"), mass);
 		
 	}
 	

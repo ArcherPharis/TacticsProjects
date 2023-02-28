@@ -97,7 +97,6 @@ void UGA_Fire::ApplyEffects(FGameplayEventData Payload)
 {
 
 	if (Payload.TargetData.Num() == 0) return;
-	UE_LOG(LogTemp, Warning, TEXT("Damage is ready to be applied."));
 
 	for (TSharedPtr<FGameplayAbilityTargetData>& data : Payload.TargetData.Data)
 	{

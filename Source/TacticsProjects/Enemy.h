@@ -13,5 +13,8 @@ UCLASS()
 class TACTICSPROJECTS_API AEnemy : public ABaseCharacter
 {
 	GENERATED_BODY()
+
+private:
+	virtual void OnDeath() override;
 	
 };

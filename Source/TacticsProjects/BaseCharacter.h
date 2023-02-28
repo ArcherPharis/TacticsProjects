@@ -23,6 +23,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void OnDeath();
+
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -55,6 +59,8 @@ protected:
 private:
 	UPROPERTY()
 	class ULVAbilitySystemComponent* AbilitySystemComp;
+
+	void OnHealthChange(const FOnAttributeChangeData& AttributeData);
 
 	UPROPERTY(EditDefaultsOnly, Category = "Physics")
 	UPhysicsHandleComponent* physicsHandleComponent;

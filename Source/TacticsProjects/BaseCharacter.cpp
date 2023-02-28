@@ -28,11 +28,16 @@ void ABaseCharacter::BeginPlay()
 	Super::BeginPlay();
 	ApplyInitialEffect();
 	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(GetAttributeSet()->GetOxygenAttribute()).AddUObject(this, &ABaseCharacter::OxygenUpdated);
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(GetAttributeSet()->GetHealthAttribute()).AddUObject(this, &ABaseCharacter::OnHealthChange);
 	for (auto& abilityKeyValuePair : InitialAbilities)
 	{
 		GiveAbility(abilityKeyValuePair.Value, static_cast<int>(abilityKeyValuePair.Key), true);
 	}
 	
+}
+
+void ABaseCharacter::OnDeath()
+{
 }
 
 // Called every frame
@@ -75,6 +80,14 @@ void ABaseCharacter::ApplyEffectToSelf(const TSubclassOf<class UGameplayEffect>&
 
 void ABaseCharacter::OxygenUpdated(const FOnAttributeChangeData& AttributeData)
 {
+}
+
+void ABaseCharacter::OnHealthChange(const FOnAttributeChangeData& AttributeData)
+{
+	if (AttributeData.NewValue <= 0)
+	{
+		OnDeath();
+	}
 }
 
 FGameplayAbilitySpec* ABaseCharacter::GiveAbility(const TSubclassOf<class UGameplayAbility>& newAbility, int inputID, bool broadCast, int level)
