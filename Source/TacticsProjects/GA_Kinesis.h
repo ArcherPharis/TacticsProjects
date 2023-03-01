@@ -35,6 +35,9 @@ private:
 	FGameplayTag autoEndKinesisTag;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
+	FName grabLocationName;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
 	float kinesisRange = 1200.f;
 	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
 	float launchForce = 1200.f;

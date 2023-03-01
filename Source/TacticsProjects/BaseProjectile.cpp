@@ -54,7 +54,8 @@ void ABaseProjectile::TargetOverlapped(UPrimitiveComponent* OverlappedComponent,
 	//UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner(), DamageEventTag, eventData);
 	//DestroyProjectile();
 	GetWorldTimerManager().ClearTimer(destroyTimer);
-	Destroy();
+	hitSphere->SetCollisionResponseToAllChannels(ECR_Ignore);
+	SetLifeSpan(0.1f);
 }
 
 void ABaseProjectile::DestroyAfterTime()

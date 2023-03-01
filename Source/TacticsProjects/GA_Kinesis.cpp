@@ -84,7 +84,7 @@ void UGA_Kinesis::BeginKinesis(FGameplayEventData Payload)
 			{
 				traceResult.GetComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 				traceResult.GetComponent()->WakeRigidBody();
-				GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->GrabComponentAtLocation(traceResult.Component.Get(), NAME_None, traceResult.GetComponent()->GetComponentLocation());
+				GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->GrabComponentAtLocation(traceResult.Component.Get(), grabLocationName, traceResult.GetComponent()->GetSocketLocation(grabLocationName));
 
 			}
 
