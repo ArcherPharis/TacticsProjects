@@ -46,28 +46,32 @@ void UKinesisProjectileComponent::Contact(AActor* OverlappedActor, AActor* Other
 
 void UKinesisProjectileComponent::ActorHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Contact made"));
-	ULVAbilitySystemComponent* ASC = OtherActor->FindComponentByClass<ULVAbilitySystemComponent>();
-	if (ASC)
+	if (OtherActor != SelfActor)
 	{
-		float speed = GetOwner()->GetVelocity().Length();
-		float mass = 1.f;
-		UPrimitiveComponent* PrimComp = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-		if (PrimComp)
+		UE_LOG(LogTemp, Warning, TEXT("Contact made"));
+		ULVAbilitySystemComponent* ASC = OtherActor->FindComponentByClass<ULVAbilitySystemComponent>();
+		if (ASC)
 		{
-			mass = PrimComp->GetMass();
+			float speed = GetOwner()->GetVelocity().Length();
+			float mass = 1.f;
+			UPrimitiveComponent* PrimComp = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+			if (PrimComp)
+			{
+				mass = PrimComp->GetMass();
+			}
+			float damage = (speed * mass) / 500;
+			FGameplayEffectSpecHandle specHan = ASC->MakeOutgoingSpec(contactGameplayEffect, -1, ASC->MakeEffectContext());
+			specHan.Data.Get()->SetSetByCallerMagnitude(contactTag, damage);
+			ASC->ApplyGameplayEffectSpecToSelf(*specHan.Data.Get());
+			UE_LOG(LogTemp, Warning, TEXT("%f"), mass);
+
 		}
-		float damage = (speed * mass) / 500;
-		FGameplayEffectSpecHandle specHan = ASC->MakeOutgoingSpec(contactGameplayEffect, -1, ASC->MakeEffectContext());
-		specHan.Data.Get()->SetSetByCallerMagnitude(contactTag, damage);
-		ASC->ApplyGameplayEffectSpecToSelf(*specHan.Data.Get());
-		UE_LOG(LogTemp, Warning, TEXT("%f"), mass);
-		
+
+
+		//TODO: consider doing the lines below if the velocity of the object is below a certain threshold.
+		GetOwner()->OnActorHit.RemoveAll(this);
+		UnregisterComponent();
+		DestroyComponent();
 	}
-	
-	//TODO: consider doing the lines below if the velocity of the object is below a certain threshold.
-	GetOwner()->OnActorHit.RemoveAll(this);
-	UnregisterComponent();
-	DestroyComponent();
 }
 

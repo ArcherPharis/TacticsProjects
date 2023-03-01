@@ -103,7 +103,7 @@ void UGA_Kinesis::LaunchTarget(FGameplayEventData Payload)
 		if (launchedActor)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("added comp"));
-			 launchedActor->AddComponentByClass(kinesisComponent, false, launchedActor->GetTransform(), false);
+			UActorComponent* actorComp = launchedActor->AddComponentByClass(kinesisComponent, false, launchedActor->GetTransform(), false);
 			 comp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
 		}
 		GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->ReleaseComponent();

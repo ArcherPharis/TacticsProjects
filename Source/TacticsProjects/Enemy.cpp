@@ -8,7 +8,7 @@
 void AEnemy::OnDeath()
 {
 	GetCapsuleComponent()->SetSimulatePhysics(true);
-	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Overlap);
 	GetMesh()->SetSimulatePhysics(true);
 	GetCharacterMovement()->DisableMovement();
 }
