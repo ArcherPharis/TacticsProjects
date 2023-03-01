@@ -21,6 +21,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
 	UAnimMontage* kinesisMontage;
 	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
+	USoundBase* kinesisSound;
+	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
+	USoundBase* launchSound;
+	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
 	UAnimMontage* launchTargetMontage;
 	UPROPERTY(EditDefaultsOnly, Category = "Kinesis")
 	TSubclassOf<UActorComponent> kinesisComponent;

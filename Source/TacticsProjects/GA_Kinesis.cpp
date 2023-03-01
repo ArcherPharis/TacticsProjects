@@ -3,6 +3,7 @@
 
 #include "GA_Kinesis.h"
 #include "LVAbilitySystemBlueprintLibrary.h"
+#include "Kismet/GameplayStatics.h"
 #include "BaseCharacter.h"
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
 #include "Abilities/Tasks/AbilityTask_WaitInputRelease.h"
@@ -69,7 +70,6 @@ void UGA_Kinesis::BeginKinesis(FGameplayEventData Payload)
 	if (!kinesisActivated)
 	{
 		kinesisActivated = true;
-
 		FHitResult traceResult;
 		FVector ViewLoc;
 		FRotator ViewRot;
@@ -82,6 +82,7 @@ void UGA_Kinesis::BeginKinesis(FGameplayEventData Payload)
 		{
 			if (traceResult.GetComponent()->IsSimulatingPhysics())
 			{
+				UGameplayStatics::PlaySound2D(this, kinesisSound, 0.4f);
 				traceResult.GetComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 				traceResult.GetComponent()->WakeRigidBody();
 				GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->GrabComponentAtLocation(traceResult.Component.Get(), grabLocationName, traceResult.GetComponent()->GetSocketLocation(grabLocationName));
@@ -106,6 +107,8 @@ void UGA_Kinesis::LaunchTarget(FGameplayEventData Payload)
 			UActorComponent* actorComp = launchedActor->AddComponentByClass(kinesisComponent, false, launchedActor->GetTransform(), false);
 			 comp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
 		}
+		UGameplayStatics::PlaySound2D(this, launchSound, 0.4f);
+
 		GetBaseCharacterAvatar()->GetPhysicsHandleComponent()->ReleaseComponent();
 		FVector ViewLoc;
 		FRotator ViewRot;

@@ -6,6 +6,8 @@
 #include "LVAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AISense_Sight.h"
 
 
 // Sets default values
@@ -19,7 +21,7 @@ ABaseCharacter::ABaseCharacter()
 	ProjectileSpawnLocation->SetupAttachment(RootComponent);
 	physicsHandleComponent = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("PhysicsHandleComp"));
 
-
+	PerceptionStimuliComp = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>("PerceptionStimuliComp");
 }
 
 // Called when the game starts or when spawned

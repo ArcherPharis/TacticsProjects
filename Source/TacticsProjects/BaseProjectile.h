@@ -27,6 +27,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	USceneComponent* rootComp;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	USoundBase* impactSound;
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	class UProjectileMovementComponent* projectileMovementComponent;

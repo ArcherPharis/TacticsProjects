@@ -5,6 +5,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "AbilitySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "AbilitySystemBlueprintLibrary.h"
 
 ABaseProjectile::ABaseProjectile()
@@ -54,6 +55,7 @@ void ABaseProjectile::TargetOverlapped(UPrimitiveComponent* OverlappedComponent,
 	//UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner(), DamageEventTag, eventData);
 	//DestroyProjectile();
 	GetWorldTimerManager().ClearTimer(destroyTimer);
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), impactSound, GetActorLocation(), GetActorRotation(), 0.2f);
 	hitSphere->SetCollisionResponseToAllChannels(ECR_Ignore);
 	SetLifeSpan(0.1f);
 }

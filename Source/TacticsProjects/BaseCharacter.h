@@ -8,10 +8,11 @@
 #include "GameplayEffectTypes.h"
 #include "LVAbilityTypes.h"
 #include "GameplayAbilitySpec.h"
+#include "GenericTeamAgentInterface.h"
 #include "BaseCharacter.generated.h"
 
 UCLASS()
-class TACTICSPROJECTS_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
+class TACTICSPROJECTS_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -24,6 +25,19 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void OnDeath();
+
+public:
+	/** Assigns Team Agent to given TeamID */
+	FORCEINLINE virtual void SetGenericTeamId(const FGenericTeamId& ID) { TeamID = ID; }
+
+	/** Retrieve team identifier in form of FGenericTeamId */
+	FORCEINLINE virtual FGenericTeamId GetGenericTeamId() const { return TeamID; }
+private:
+	UPROPERTY(EditAnywhere, Category = "AI")
+	FGenericTeamId TeamID;
+
+	UPROPERTY()
+	class UAIPerceptionStimuliSourceComponent* PerceptionStimuliComp;
 
 
 
@@ -43,6 +57,9 @@ public:
 	USceneComponent* GetProjectileSpawnLocation() const { return ProjectileSpawnLocation; }
 	UFUNCTION(BlueprintCallable, Category = "PlayerCharacter")
 	USceneComponent* GetKinesisLocation() const { return KinesisHoldingLocation; }
+
+	UFUNCTION(BlueprintPure, Category = "BaseCharacter")
+	UAnimMontage* GetFlinchMontage() const { return flinchMontage; }
 
 	FORCEINLINE class UPhysicsHandleComponent* GetPhysicsHandleComponent() const { return physicsHandleComponent; }
 
@@ -81,5 +98,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Base Character")
 	USceneComponent* ProjectileSpawnLocation;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Base Character")
+	UAnimMontage* flinchMontage;
 
 };
