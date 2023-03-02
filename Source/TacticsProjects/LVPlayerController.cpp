@@ -90,6 +90,7 @@ void ALVPlayerController::ToggleUIInventory()
 void ALVPlayerController::ToggleDeathCanvas()
 {
 	inGameUI->SetToGameoverScreen();
+	bShowMouseCursor = true;
 	SetPause(true);
 	SetInputMode(FInputModeUIOnly());
 }
