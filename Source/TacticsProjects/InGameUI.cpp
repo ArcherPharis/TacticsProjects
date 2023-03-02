@@ -46,6 +46,11 @@ void UInGameUI::ToggleInventoryCanvas(bool& inInventory)
 	inInventory = false;
 }
 
+void UInGameUI::SetToGameoverScreen()
+{
+	widgetSwitcher->SetActiveWidget(deathCanvas);
+}
+
 void UInGameUI::NewItemGiven(UObject* itemToAddToList, int amount)
 {
 	//itemList->AddItem(itemToAddToList);

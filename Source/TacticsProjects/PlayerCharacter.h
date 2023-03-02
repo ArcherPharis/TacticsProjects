@@ -47,13 +47,16 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Base Character")
 	class USpringArmComponent* springArm;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Base Character")
+	UAnimMontage* DeathMontage;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
 	UInventoryComponent* inventoryComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
 	float GrabRange = 200.f;
 
-
+	virtual void OnDeath() override;
 
 
 	//todo, when we change the Fire Ability to a new one, this class needs to change too.

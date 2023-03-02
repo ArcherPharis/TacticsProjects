@@ -68,6 +68,8 @@ void ALVPlayerController::OxygenReserveUpdated(float oxy)
 
 void ALVPlayerController::ToggleUIInventory()
 {
+	if (bPlayerIsDead) return;
+
 	bool inInv;
 	inGameUI->ToggleInventoryCanvas(inInv);
 	if (inInv)
@@ -83,6 +85,18 @@ void ALVPlayerController::ToggleUIInventory()
 		bShowMouseCursor = false;
 
 	}
+}
+
+void ALVPlayerController::ToggleDeathCanvas()
+{
+	inGameUI->SetToGameoverScreen();
+	SetPause(true);
+	SetInputMode(FInputModeUIOnly());
+}
+
+void ALVPlayerController::SetPlayerIsDead(bool deadOrNah)
+{
+	bPlayerIsDead = deadOrNah;
 }
 
 void ALVPlayerController::AddNewItemToInventoryList(UObject* itemToAdd, AActor* InventoryOwner)

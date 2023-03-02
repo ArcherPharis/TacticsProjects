@@ -42,6 +42,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	FName TargetBlackboardKeyName {"Target"};
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	FName LastSeenKeyName {"LastKnownPlayerLocation"};
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UBehaviorTree* BehaviorTree;
 	
 };

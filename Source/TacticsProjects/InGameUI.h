@@ -20,6 +20,7 @@ public:
 	void UpdateCapacityBar(float capacity, float maxCapacity);
 	void UpdateOxygenReserves(float newVal);
 	void ToggleInventoryCanvas(bool& inInventory);
+	void SetToGameoverScreen();
 
 	UFUNCTION()
 	void NewItemGiven(UObject* itemToAddToList, int amount);
@@ -39,6 +40,8 @@ private:
 	class UCanvasPanel* inGameCanvas;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UCanvasPanel* inventoryCanvas;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UCanvasPanel* deathCanvas;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UWidgetSwitcher* widgetSwitcher;
 

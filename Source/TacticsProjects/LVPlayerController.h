@@ -23,8 +23,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ToggleUIInventory();
 
+	void ToggleDeathCanvas();
+
 	UFUNCTION(BlueprintPure, Category = "PlayerController")
 	class UInGameUI* GetUI() const { return inGameUI; }
+
+	void SetPlayerIsDead(bool deadOrNah);
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
@@ -43,7 +47,7 @@ private:
 	UFUNCTION()
 	void OxygenReserveUpdated(float oxy);
 
-
+	bool bPlayerIsDead = false;
 
 	UFUNCTION()
 	void AddNewItemToInventoryList(UObject* itemToAdd, AActor* InventoryOwner);

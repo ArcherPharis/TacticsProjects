@@ -44,7 +44,7 @@ void ALVAIController::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 	if (Stimulus.WasSuccessfullySensed())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("I SEE: %s"), *Actor->GetName());
-		//GetBlackboardComponent()->SetValueAsObject(TargetBlackboardKeyName, Actor);
+		GetBlackboardComponent()->SetValueAsObject(TargetBlackboardKeyName, Actor);
 	}
 	else
 	{
@@ -52,7 +52,8 @@ void ALVAIController::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 		if (!PerceptionInfo->HasAnyCurrentStimulus())
 		{
 			UE_LOG(LogTemp, Warning, TEXT("I lost track of: %s"), *Actor->GetName());
-			//GetBlackboardComponent()->ClearValue(TargetBlackboardKeyName);
+			GetBlackboardComponent()->ClearValue(TargetBlackboardKeyName);
+			GetBlackboardComponent()->SetValueAsVector(LastSeenKeyName, Actor->GetActorLocation());
 		}
 	}
 }

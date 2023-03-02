@@ -9,6 +9,8 @@
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "InventoryComponent.h"
 #include "LVAbilityTypes.h"
+#include "Components/CapsuleComponent.h"
+#include "LVPlayerController.h"
 #include "LVAttributeSet.h"
 
 APlayerCharacter::APlayerCharacter()
@@ -110,6 +112,15 @@ void APlayerCharacter::RefillOxygen()
 		}
 
 	}
+}
+
+void APlayerCharacter::OnDeath()
+{
+	GetMesh()->GetAnimInstance()->Montage_Play(DeathMontage);
+	ALVPlayerController* controller = Cast<ALVPlayerController>(GetOwner());
+	controller->SetPlayerIsDead(true);
+	controller->ToggleDeathCanvas();
+	
 }
 
 void APlayerCharacter::MoveForward(float value)
