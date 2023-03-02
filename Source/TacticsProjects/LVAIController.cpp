@@ -43,7 +43,7 @@ void ALVAIController::PerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 
 	if (Stimulus.WasSuccessfullySensed())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("I SEE: %s"), *Actor->GetName());
+		
 		GetBlackboardComponent()->SetValueAsObject(TargetBlackboardKeyName, Actor);
 	}
 	else

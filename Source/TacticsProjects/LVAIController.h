@@ -45,5 +45,7 @@ private:
 	FName LastSeenKeyName {"LastKnownPlayerLocation"};
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UBehaviorTree* BehaviorTree;
+
+
 	
 };

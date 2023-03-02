@@ -51,5 +51,7 @@ private:
 
 	UFUNCTION()
 	void AddNewItemToInventoryList(UObject* itemToAdd, AActor* InventoryOwner);
+
+	
 	
 };
